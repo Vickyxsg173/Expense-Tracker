@@ -1,5 +1,14 @@
 import React from "react";
-import { RiDeleteBin6Fill } from "react-icons/ri";
+import { 
+  RiDeleteBin6Fill,
+  RiRestaurantLine,
+  RiFilmLine,
+  RiShoppingBagLine,
+  RiHomeLine,
+  RiLightbulbLine,
+  RiFileList3Line,
+  RiWalletLine
+} from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 
 const REGIONAL_SYMBOLS = {
@@ -8,6 +17,41 @@ const REGIONAL_SYMBOLS = {
   EUR: "€",
   GBP: "£",
   JPY: "¥",
+};
+
+const getCategoryStyles = (category) => {
+  switch (category) {
+    case "Food":
+      return {
+        icon: <RiRestaurantLine className="w-4 h-4" />,
+        colorClass: "bg-orange-50 dark:bg-orange-500/10 text-orange-500"
+      };
+    case "Entertainment":
+      return {
+        icon: <RiFilmLine className="w-4 h-4" />,
+        colorClass: "bg-purple-50 dark:bg-purple-500/10 text-purple-500"
+      };
+    case "Shopping":
+      return {
+        icon: <RiShoppingBagLine className="w-4 h-4" />,
+        colorClass: "bg-rose-50 dark:bg-rose-500/10 text-rose-500"
+      };
+    case "Rent":
+      return {
+        icon: <RiHomeLine className="w-4 h-4" />,
+        colorClass: "bg-blue-50 dark:bg-blue-500/10 text-blue-500"
+      };
+    case "Utilities":
+      return {
+        icon: <RiLightbulbLine className="w-4 h-4" />,
+        colorClass: "bg-amber-50 dark:bg-amber-500/10 text-amber-500"
+      };
+    default:
+      return {
+        icon: <RiFileList3Line className="w-4 h-4" />,
+        colorClass: "bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400"
+      };
+  }
 };
 
 function OperationsList({ 
@@ -52,38 +96,46 @@ function OperationsList({
                   No debit transactions logged yet.
                 </motion.p>
               ) : (
-                expenses.map((expense) => (
-                  <motion.div 
-                    key={expense.id} 
-                    initial={{ opacity: 0, height: 0, x: -60, scale: 0.9 }}
-                    animate={{ opacity: 1, height: "auto", x: 0, scale: 1 }}
-                    exit={{ opacity: 0, height: 0, x: 60, scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 120, damping: 14 }}
-                    className="overflow-hidden mb-1.5 last:mb-0"
-                  >
-                    <div className="flex justify-between items-center p-3 bg-slate-50/50 dark:bg-zinc-950/40 border border-slate-100 dark:border-zinc-800/50 rounded-xl group hover:bg-slate-100/30 dark:hover:bg-zinc-800/30 transition duration-150">
-                      <div className="flex flex-col">
-                        <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300">{expense.title}</span>
-                        {expense.date && (
-                          <span className="text-[9px] text-slate-400 dark:text-zinc-500 mt-0.5">{expense.date}</span>
-                        )}
+                expenses.map((expense) => {
+                  const { icon, colorClass } = getCategoryStyles(expense.category);
+                  return (
+                    <motion.div 
+                      key={expense.id} 
+                      initial={{ opacity: 0, height: 0, x: -60, scale: 0.9 }}
+                      animate={{ opacity: 1, height: "auto", x: 0, scale: 1 }}
+                      exit={{ opacity: 0, height: 0, x: 60, scale: 0.9 }}
+                      transition={{ type: "spring", stiffness: 120, damping: 14 }}
+                      className="overflow-hidden mb-1.5 last:mb-0"
+                    >
+                      <div className="flex justify-between items-center p-3 bg-slate-50/50 dark:bg-zinc-950/40 border border-slate-100 dark:border-zinc-800/50 rounded-xl group hover:bg-slate-100/30 dark:hover:bg-zinc-800/30 transition duration-150">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded-xl flex items-center justify-center ${colorClass}`}>
+                            {icon}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300">{expense.title}</span>
+                            {expense.date && (
+                              <span className="text-[9px] text-slate-400 dark:text-zinc-500 mt-0.5">{expense.date}</span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-mono font-bold text-rose-500">
+                            -{symbol}{(expense.amount * exchangeRate).toFixed(2)}
+                          </span>
+                          <button
+                            onClick={() => onDeleteExpense(expense.id)}
+                            className="text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 p-1 rounded-lg transition duration-200 cursor-pointer"
+                            title="Delete Entry"
+                          >
+                            <RiDeleteBin6Fill className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
-                      
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-mono font-bold text-rose-500">
-                          -{symbol}{(expense.amount * exchangeRate).toFixed(2)}
-                        </span>
-                        <button
-                          onClick={() => onDeleteExpense(expense.id)}
-                          className="text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 p-1 rounded-lg transition duration-200 cursor-pointer"
-                          title="Delete Entry"
-                        >
-                          <RiDeleteBin6Fill className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))
+                    </motion.div>
+                  );
+                })
               )}
             </AnimatePresence>
           </div>
@@ -123,11 +175,16 @@ function OperationsList({
                     className="overflow-hidden mb-1.5 last:mb-0"
                   >
                     <div className="flex justify-between items-center p-3 bg-slate-50/50 dark:bg-zinc-950/40 border border-slate-100 dark:border-zinc-800/50 rounded-xl group hover:bg-slate-100/30 dark:hover:bg-zinc-800/30 transition duration-150">
-                      <div className="flex flex-col">
-                        <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300">Savings Deposit #{idx + 1}</span>
-                        {saving.date && (
-                          <span className="text-[9px] text-slate-400 dark:text-zinc-500 mt-0.5">{saving.date}</span>
-                        )}
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center justify-center">
+                          <RiWalletLine className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300">Savings Deposit #{idx + 1}</span>
+                          {saving.date && (
+                            <span className="text-[9px] text-slate-400 dark:text-zinc-500 mt-0.5">{saving.date}</span>
+                          )}
+                        </div>
                       </div>
                       
                       <div className="flex items-center gap-3">
