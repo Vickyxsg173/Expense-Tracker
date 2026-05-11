@@ -2,30 +2,27 @@ import React from "react";
 
 function CurrencyConverter({ displayCurrency, setDisplayCurrency, isOffline }) {
   return (
-    <div className="flex items-center gap-2 bg-white/50 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2 shadow-sm shadow-slate-100/50 self-start sm:self-center">
-      {/* Offline Status indicator badge */}
+    <div className="flex items-center gap-2 bg-white dark:bg-[#121214] border border-slate-100 dark:border-zinc-800 rounded-lg px-3 py-1.5 self-start sm:self-center">
       {isOffline && (
-        <span className="text-[8px] bg-amber-500/10 text-amber-600 font-black uppercase tracking-wider py-1 px-2.5 rounded-full border border-amber-500/20 animate-pulse">
+        <span className="text-[8px] bg-orange-500/10 text-orange-600 font-bold uppercase tracking-wider py-1 px-2.5 rounded-full border border-orange-500/20 animate-pulse">
           Offline Mode
         </span>
       )}
       
-      {/* Selector Label */}
-      <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">
+      <span className="text-[10px] font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-widest">
         Currency
       </span>
 
-      {/* Select Dropdown */}
       <select
         value={displayCurrency}
         onChange={(e) => setDisplayCurrency(e.target.value)}
-        className="bg-slate-50 border border-slate-200/60 rounded-lg px-2.5 py-1 text-xs text-slate-700 font-bold focus:outline-none focus:border-indigo-400 transition duration-200 cursor-pointer"
+        className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-2 py-0.5 text-xs text-slate-800 dark:text-zinc-200 font-medium focus:outline-none focus:border-slate-400 dark:focus:border-zinc-700 transition duration-150 cursor-pointer"
       >
-        <option value="INR">INR (₹)</option>
-        <option value="USD">USD ($)</option>
-        <option value="EUR">EUR (€)</option>
-        <option value="GBP">GBP (£)</option>
-        <option value="JPY">JPY (¥)</option>
+        <option value="INR" className="dark:bg-zinc-950">INR (₹)</option>
+        <option value="USD" className="dark:bg-zinc-950">USD ($)</option>
+        <option value="EUR" className="dark:bg-zinc-950">EUR (€)</option>
+        <option value="GBP" className="dark:bg-zinc-950">GBP (£)</option>
+        <option value="JPY" className="dark:bg-zinc-950">JPY (¥)</option>
       </select>
     </div>
   );
