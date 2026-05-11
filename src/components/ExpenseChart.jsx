@@ -39,13 +39,15 @@ function ExpenseChart({ expenses, displayCurrency, exchangeRate, theme }) {
     return expenses.reduce((sum, curr) => sum + (curr.amount * exchangeRate), 0);
   }, [expenses, exchangeRate]);
 
-  const cardStyle = "p-6 bg-white/90 dark:bg-zinc-900/85 backdrop-blur-md border border-white/95 dark:border-zinc-800/90 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.03)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.45)] shadow-slate-200/60 hover:-translate-y-2.5 hover:scale-[1.015] hover:shadow-[0_30px_70px_rgba(99,102,241,0.12)] dark:hover:shadow-[0_30px_70px_rgba(99,102,241,0.22)] hover:border-indigo-100 dark:hover:border-indigo-900/60 transition-all duration-300 text-slate-800 dark:text-zinc-100";
+  const cardStyle = "p-4 sm:p-6 bg-white/70 dark:bg-zinc-900 border border-white dark:border-zinc-800 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.02)] dark:shadow-none hover:shadow-[0_24px_50px_rgba(99,102,241,0.05)] dark:hover:border-zinc-700 hover:-translate-y-1 hover:border-indigo-100/80 dark:hover:border-zinc-800 transition-all duration-300 text-slate-800 dark:text-zinc-100 h-full flex flex-col justify-between";
 
   if (expenses.length === 0) {
     return (
       <div className={cardStyle}>
-        <h2 className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Category Share</h2>
-        <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic">Add expenses to view category charts split.</p>
+        <div>
+          <h2 className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Category Share</h2>
+          <p className="text-[11px] text-slate-400 dark:text-zinc-500 italic">Add expenses to view category charts split.</p>
+        </div>
       </div>
     );
   }
@@ -57,15 +59,15 @@ function ExpenseChart({ expenses, displayCurrency, exchangeRate, theme }) {
         Expense Share
       </h2>
 
-      <div className="h-[180px] flex items-center justify-center relative">
+      <div className="h-[320px] flex items-center justify-center relative my-4">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius={50}
-              outerRadius={70}
+              innerRadius={80}
+              outerRadius={110}
               paddingAngle={4}
               dataKey="value"
             >
@@ -77,7 +79,7 @@ function ExpenseChart({ expenses, displayCurrency, exchangeRate, theme }) {
             <Tooltip
               formatter={(value) => [`${symbol}${value.toFixed(2)}`, "Expenses"]}
               contentStyle={{
-                backgroundColor: theme === "dark" ? "#121214" : "#ffffff",
+                backgroundColor: theme === "dark" ? "#18181b" : "#ffffff",
                 border: theme === "dark" ? "1px solid #27272a" : "1px solid #e2e8f0",
                 borderRadius: "8px",
                 color: theme === "dark" ? "#f4f4f5" : "#1e293b",
@@ -90,16 +92,16 @@ function ExpenseChart({ expenses, displayCurrency, exchangeRate, theme }) {
         </ResponsiveContainer>
 
         <div className="absolute text-center select-none pointer-events-none">
-          <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider block">Total Burn</span>
-          <span className="text-sm font-bold text-slate-800 dark:text-zinc-100 mt-0.5 block">{symbol}{totalExpenses.toFixed(2)}</span>
+          <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider block">Total Burn</span>
+          <span className="text-xl font-bold text-slate-800 dark:text-zinc-100 mt-0.5 block">{symbol}{totalExpenses.toFixed(2)}</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-[10px] font-bold text-slate-500 dark:text-zinc-400 border-t border-slate-50 dark:border-zinc-800/80 pt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[10px] font-bold text-slate-500 dark:text-zinc-400 border-t border-slate-50 dark:border-zinc-800/80 pt-3">
         {chartData.map((item) => (
           <div key={item.name} className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full block flex-shrink-0" style={{ backgroundColor: item.color }} />
-            <span className="truncate text-slate-600 dark:text-zinc-400">{item.name}: <span className="font-mono text-slate-800 dark:text-zinc-200 font-bold">{symbol}{item.value.toFixed(2)}</span></span>
+            <span className="truncate text-[15px] text-slate-600 dark:text-zinc-400">{item.name}: <span className="font-mono text-slate-800 dark:text-zinc-200 font-bold">{symbol}{item.value.toFixed(2)}</span></span>
           </div>
         ))}
       </div>

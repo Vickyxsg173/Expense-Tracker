@@ -27,7 +27,7 @@ function AddSavings({ savings, setSavings }) {
     setSavingAmount("");
   };
 
-  const inputStyle = "w-full bg-slate-50 dark:bg-zinc-950/60 border border-slate-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-zinc-100 placeholder-slate-400 focus:outline-none focus:border-slate-400 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition duration-150";
+  const inputStyle = "w-full bg-slate-50/50 dark:bg-zinc-950/60 border border-slate-100 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm text-slate-900 dark:text-zinc-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 focus:shadow-[0_0_20px_rgba(99,102,241,0.03)] transition duration-200";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
