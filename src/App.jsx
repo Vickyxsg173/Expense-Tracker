@@ -171,7 +171,7 @@ function App() {
         <div>
           <div className="flex items-center justify-between w-full">
             <h1 className="text-sm md:text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-50">
-              Expense Tracker
+              SpendWise
             </h1>
             
             <div className="flex items-center gap-2 md:hidden">
