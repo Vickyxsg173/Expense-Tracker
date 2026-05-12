@@ -42,7 +42,6 @@ Fully responsive across desktop, tablet, and mobile. Toggle between dark and lig
 | **Framer Motion** | Animations — number tickers, sliding alerts, card lifts |
 | **TailwindCSS** | Styling — layouts, glass cards, borders, dark mode |
 | **Recharts** | Circular burn percentage charts |
-| **Axios** | Live currency exchange rate fetching |
 | **GSAP** | Animated floating background color bubbles |
 
 ---
