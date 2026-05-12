@@ -1,9 +1,39 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
-function AddExpense({ expenses, setExpenses }) {
+const REGIONAL_SYMBOLS = {
+  INR: "₹",
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+  JPY: "¥",
+};
+
+function AddExpense({ 
+  expenses, 
+  setExpenses, 
+  budget, 
+  displayCurrency, 
+  exchangeRate 
+}) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
+
+  const symbol = REGIONAL_SYMBOLS[displayCurrency] || "₹";
+
+  const totalSpentInBase = expenses
+    .filter((expense) => {
+      const expenseTime = expense.timestamp || 0;
+      const budgetTime = budget?.createdAt || 0;
+      return expenseTime >= budgetTime;
+    })
+    .reduce((sum, expense) => sum + expense.amount, 0);
+
+  const remainingInBase = budget.amount - totalSpentInBase;
+  const typedAmount = parseFloat(amount) || 0;
+  const isOverBudget = typedAmount > 0 && typedAmount > remainingInBase;
+  const excessAmountInDisplay = isOverBudget ? (typedAmount - remainingInBase) * exchangeRate : 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +50,8 @@ function AddExpense({ expenses, setExpenses }) {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true
-      })
+      }),
+      timestamp: Date.now()
     };
 
     setExpenses([
@@ -85,6 +116,25 @@ function AddExpense({ expenses, setExpenses }) {
           </select>
         </div>
       </div>
+
+      {isOverBudget && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20 rounded-xl text-[10px] leading-relaxed font-semibold text-rose-500 dark:text-rose-400 flex items-start gap-1.5 overflow-hidden"
+        >
+          <span className="flex-shrink-0">⚠️</span>
+          <span>
+            Adding this will exceed your remaining budget by{" "}
+            <span className="font-mono font-extrabold bg-rose-100 dark:bg-rose-500/20 px-1.5 py-0.5 rounded text-rose-600 dark:text-rose-400">
+              {symbol}{excessAmountInDisplay.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </span>!
+          </span>
+        </motion.div>
+      )}
 
       <button
         type="submit"

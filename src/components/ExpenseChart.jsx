@@ -39,7 +39,7 @@ function ExpenseChart({ expenses, displayCurrency, exchangeRate, theme }) {
     return expenses.reduce((sum, curr) => sum + (curr.amount * exchangeRate), 0);
   }, [expenses, exchangeRate]);
 
-  const cardStyle = "p-4 sm:p-6 bg-white/70 dark:bg-zinc-900 border border-white dark:border-zinc-800 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.02)] dark:shadow-none hover:shadow-[0_24px_50px_rgba(99,102,241,0.05)] dark:hover:border-zinc-700 hover:-translate-y-1 hover:border-indigo-100/80 dark:hover:border-zinc-800 transition-all duration-300 text-slate-800 dark:text-zinc-100 h-full flex flex-col justify-between";
+  const cardStyle = "p-4 sm:p-6 bg-white/70 dark:bg-zinc-900 border border-indigo-100/80 dark:border-zinc-800 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.02)] dark:shadow-none hover:shadow-[0_20px_50px_rgba(99,102,241,0.25),0_0_15px_rgba(99,102,241,0.15)] dark:hover:shadow-[0_20px_50px_rgba(99,102,241,0.15),0_0_15px_rgba(99,102,241,0.1)] dark:hover:border-indigo-500/30 hover:-translate-y-1 hover:border-indigo-400 transition-all duration-300 text-slate-800 dark:text-zinc-100 h-full flex flex-col justify-between";
 
   if (expenses.length === 0) {
     return (
